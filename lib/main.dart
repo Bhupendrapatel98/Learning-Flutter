@@ -1,6 +1,12 @@
 
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert' as convert;
+
+import 'package:http/http.dart' as http;
+
 
 void main() {
   runApp(MyApp());
@@ -61,7 +67,9 @@ class MyHomePage extends StatelessWidget {
                 child: Text('Login', style: TextStyle(fontSize: 20.0),),
                 color: Colors.blueAccent,
                 textColor: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+                  data();
+                },
               ),
             ),
           ],
@@ -70,6 +78,22 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
+  void data() async {
+
+    var url = 'https://api.themoviedb.org/3/trending/person/day?api_key=c4824776bf6f08433a4c4e7cd75a6acc';
+
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      
+      var jsonResponse = convert.jsonDecode(response.body);
+      print("object : ${jsonResponse}.");
+
+    } else {
+      print('Request: ${response.statusCode}.');
+    }
+
+  }
 
 }
 
